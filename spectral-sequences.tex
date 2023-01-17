@@ -1,1 +1,43 @@
 \section{Spectral sequences}
+We start with a gentle introduction to spectral sequences, following \cite{Hatcher-spec}.
+\begin{definition}
+An \defn{exact couple} is a diagram
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRQAmclVqMWbTjz7Y8BIgEZSw8fWatEIAKLdxMKAHN4RUADMAThAC2SMiBwQkKiZrZZuvEFdsvqTkiiblLaAFZeFtZ2iA6BiMEaoSAA1vpcQA
+\[\begin{tikzcd}[column sep=small, row sep=small]
+A \arrow[rr, "i"] \arrow[rdd, "k"] &   & A \arrow[ldd, "j"] \\
+                                   &   &                    \\
+                                   & E &                   
+\end{tikzcd}\]
+exact at every corner.
+\end{definition}
+Given an exact couple, we can form the \defn{derived couple} as follows.
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEByEAX1PUy58hFACZyVWoxZsuvfiAzY8BIgEZSoyfWatEIAKLcekmFADm8IqABmAJwgBbJGRA4ISDVN1ssxhfZOLtTuSOLeMvoA1v62Ds6IXqGI4TqRIABWxhQ8QA
+\[\begin{tikzcd}[column sep=small, row sep=small]
+A' \arrow[rr, "i'"] \arrow[rdd, "k'"] &    & A' \arrow[ldd, "j'"] \\
+                                      &    &                      \\
+                                      & E' &                     
+\end{tikzcd}\]
+We call $d=jk$ the \defn{differential} and note $d^2=0$. We then define $E'=ker(d)/im(d)$, $A'=i(A)$, $j'(ia)=[ja]$ and all other maps are canonically defined. By a diagram chase, one can show the derived couple is exact. We can therefore take derived couples indefinitely. This will, in particular, form a sequence $(E^r,d_r)$ of objects and morphisms, where $E^{r+1}=ker(d_r)/im(d_r)$ and $d_r^2=0$. This is called a \defn{spectral sequence}.
+
+Let $A^1$ and $E^1$ be bigraded groups, and let $|i|=(0,1),|j|=(0,0)$ and $|k|=(-1,-1)$. For example, we could have a CW-complex $X$ with $p-$skeleta $X_p$, and let $$A=\bigoplus_{n,p}H_n(X_p), \quad E=\bigoplus_{n,p}H_n(X_p,X_{p-1}),$$ $$i=i^*, j=j^* \text{ (the canonical inclusions), } k=\partial_n.$$
+In this case, the derived couple comes from the long exact sequence in homology
+$$\dots\rightarrow H_{n+1}(X_p)\xrightarrow{j}H_{n+1}(X_p,X_{p-1})\xrightarrow{\partial_{n+1}}H_n(X_{p-1})\xrightarrow{i}H_n(X_p)\rightarrow \dots$$
+After taking the derived couple, we have $|i'|=|i|$ and $|k'|=|k|$ but \newline $|j'|=(0,1)+|j|$. It follows that $d_r:E^r_{n,p}\rightarrow E^r_{n-1,p-r+1}$ defined on components. 
+
+Next, we will make two simplifying assumptions. Note, for example, that these are satisfied by the above homological example.
+\begin{enumerate}[(i)]
+    \item For each $p,$ only finitely many of the $E^1_{n,p}$'s are nonzero. Equivalently, all but finitely many of the maps $i:A^1_{n,p-1}\rightarrow A^1_{n,p}$ are isomorphisms.
+    \item Defining $A^1_{-\infty,p}$ to be the common bottom value of each column, assume $A^1_{n,-\infty}$.
+\end{enumerate}
+Since the differentials $d_r$ go up by $r-1$, they are eventually all the zero map, so the $E^r_{n,p}$'s stabilize to some groups $E^{\infty}_{n,p}$. Under these two assumptions, we have the following convergence result.
+
+\begin{proposition}
+Under (i) and (ii), $E^\infty_{n,p}$ is isomorphic to the quotient $F^p_n/F^{p-1}_n$ for the filtration
+$$\dots \subset F_n^{p-1}\subset F_n^{p}\subset\dots \subset A^1_{n,\infty}$$ by the subgroups $F_n^p=Im(A^1_{n,p}\rightarrow A^1_{n,\infty})$.
+\end{proposition}
+\begin{proof}
+Consider the exact sequence
+$$E^r_{n+1,p+r-1}\rightarrow A^r_{n,p+r-2}\xrightarrow{i} A^r_{n,p+r-1}\rightarrow E^r_{n,p}\rightarrow A^r_{n-1,p-1}\rightarrow A^r_{n-1,p}\rightarrow E^r_{n-1,p-r+2}$$ For large $r$, the first and last $E$ terms are zero by condition (i), and the last two $A$ terms are zero by condition (2). This expresses $E^r_{n,p}$ as the quotient $$A^r_{n,p+r-1}/i(A^r_{n,p+r-2})=i^{r-1}(A^1_{n,p})/i^{r}(A^1_{n,p-1})$$ of subgroups of $A^1_{n,p+r-1}=A^1_{n,\infty}$.
+\cite{Hatcher-spec}\end{proof}
+
+It is often more useful to define $n=p+q$, $E_{p,q}:=E_{p+q,p}$  and vary $p$ and $q$ instead. In this view, the differentials are $d_r:E_{p,q}\rightarrow E_{p+r,q+r-1}$ This allows us to equivalently define a spectral sequence as a sequence of "pages" $E^r$ where each page consists of a grid of groups $E^r_{p,q}$ with differentials $d_r:E^r_{p,q}\rightarrow E^r_{p-r,q+r-1}$, and where the $E^{r+1}$ page is formed from the $E^r$ page by taking $ker(d_r)/im(d_r)$ at each grid element. It is common to start with the $E^2$ page, where we note differentials go two units to the left and one unit up. The differentials then get one unit wider and longer after passing to each successive page. If the grid elements are cohomology groups, it is typical to redefine $n=-n$ such that differentials to $r$ units right and $r-1$ units down. We will use this notation for the rest of these notes.
