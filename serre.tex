@@ -1,0 +1,54 @@
+\section{The Serre spectral sequence}
+The Serre spectral sequence arises from a fibration
+$$F\rightarrow E \rightarrow B$$
+where $B$ is a path-connected CW-complex such that $\pi_1(B)$ acts trivially on $H_*(F;G)$.
+For example, $B$ could be simply-connected. Alternatively, the fibration could arise (as Eilenberg-MacLane spaces) from a short exact sequence of groups $$0\rightarrow A\rightarrow B\rightarrow C\rightarrow 0$$ where $A\subset Z(B)$ as shown in Example \ref{missing}. In either case, we have a spectral sequence of the following form:
+\begin{theorem}[Serre spectral sequence]
+Given a fibration $$F\rightarrow E \rightarrow B$$ where $\pi_1(B)$ acts trivially on $H_*(F)$, there is a spectral sequence $(E_{p,q}^r,d_r)$ with $E_{p,q}^2=H_p(B,H_q(F;G))$ and whose $E^{\infty}$ terms $E^\infty_{p,n-p}$ are quotients $F_n^p/F_n^{p-1}$ of a filtration $0\subset F_n^0\subset\dots\subset F_n^n=H_n(X;G)$.
+\end{theorem}
+Note we have made a change of notation from the previous section by setting $n=p+q$. A proof of the theorem is given in \cite{Hatcher-spec}.
+
+As demonstrated in \cite{Hatcher-spec} as Examples 5.4 and 5.5, the path-space fibration $\Omega X\rightarrow PX\rightarrow X$ of a simply connected space $X$ give rise to very nice Serre spectral sequences. Since $PX$ is contractible, the only nonzero entry on the $E^\infty$ page is $E^{\infty}_{0,0}$, allowing us to deduce a lot about which differentials are isomorphisms, or $0$. If $X$ is furthermore a Eilenberg-MacLane space $K(A,n)$, then $\Omega X=K(A,n-1)$. If the homology of $K(A,n-1)$ is well-known, the spectral sequence can then be used to compute the homology of $X$. The aforementioned examples demonstrate computations using path-space fibrations in the case $X=K(\Z,2)$ and $X=S^n$.
+
+The following example is Exercise $1$ from Chapter $5$ of \cite{Hatcher-spec}.
+\begin{example}
+Let $f:S^k\rightarrow S^k$ be a map of degree $n$ where $n,k>1$. The homotopy fiber $F$ gives a fibration $F\rightarrow S^k\rightarrow S^k$ and we note $S^k$ is simply-connected. By the universal coefficient theorem, the $E^2$ entries are given by
+$$E_{p,q}^2=H_p(S^k;H_qF)\iso \big(H_p(S^k)\otimes H_qF\big)\oplus\big(Tor_1(H_{p-1}(S^k),H_qF\big)$$
+Since $H_p(S^k)=\Z$ for $p=0,k$ and is $0$ otherwise, the only non-zero entries on the $E^2$ page are in the $p=0,k$ columns, with value $H_qF$. The only entries that can survive to the $E^\infty$ page lie on the $0^{th}$ and $k^{th}$ diagonal, as these will be quotients in a filtration of the only non-zero homology groups of the total space $S^k$; $H_0S^k\iso \Z$ and $H_kS^k\iso \Z$. In particular, $H_0F=\Z$. The only possible non-trivial differentials are on the $E^k$ page, and in particular $H_iF=0$ for $0<i<k-1$. The only possible non-trivial differential is the surjection $d_k:E_{k,0}^k\iso \Z\rightarrow E^k_{0,k-1}\iso H_{k-1}F$. All other non-trivial differentials are isomorphisms, giving $H_jF\iso H_{j+k-1}$ for $<1$. This is summarized in the following diagram. where all unspecified entries are $0$.
+
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZARgBpiAGAXVJADcBDAGwFcYkQKQBfU9TXPkIoATOWq1GrdohAAdOVAg4EvftjwEiFUgE4a9Zmw5c1IDBqFEAzOINTjsgNY8+5gZuHIdADntGZeTk6JRVXdUEtFB0Adn9pDicAWmJw90so71IANnjHEBczC0ivHQBWPMCFEOVVN2LPbVIAFkqOEWSRNIaraNJrNtkOlO6PXqyRQaCasKKxzLJ9SQCOBQAtUYyvWyXDBNl1zZKiMjjl-ZAACQB9YGTibgAxI8aUMlzz-JunZ7mtk5aUxuwGGIieL3GZAGn0CwOGD1+9Xm21IZz2X1u93Bf2OKFsH3RsOuPwhmVsrRhHDhnWxSP+eP6QNu8NpEVeJHIU1JXjIEkJHB4BhgUAA5vAiKAAGYAJwgAFskMQxCAcBBFbYQAALGAMKAcHAAdwg2t1dSlsoViGIMVoqsVZUpBzkWDgarMMvlip8trVVuyjqCLrdbg9luIuh9SBEZH5TqDaVDUZ0Kt9ImVDiqztdgu4QA
+\[\begin{tikzcd}
+       & {}        &       &                                 \\
+       & {}        &       &                                 \\
+\vdots &           &       &                                 \\
+2k-1   & H_{2k-1}F &       & H_{2k-1}F \arrow[lluuu, "\iso"] \\
+2k-2   & H_{2k-2}F &       & H_{2k-2}F \arrow[lluuu, "\iso"] \\
+\vdots &           &       &                                 \\
+k      & H_kF      &       & H_kF \arrow[lluuu, "\iso"]      \\
+k-1    & H_{k-1}F  &       & H_{k-1}F \arrow[lluuu, "\iso"]  \\
+\vdots &           &       &                                 \\
+0      & \Z        &       & \Z \arrow[lluu, two heads]      \\
+       & 0         & \dots & k                              
+\end{tikzcd}\]
+%If $H_kF=\Z$, then the marked surjection could be non-trivial, representing a filtration
+%$$0\rightarrow \Z \xrightarrow{id}\Z\rightarrow \dots \xrightarrow{id} \Z \xrightarrow{\cdot m}\Z=H_k(S^k).$$ Otherwise, we must have $H_kF=H_{k-1}F=0,$ representing the filtration
+%$$0\subset 0 \subset \dots \subset 0 \subset \Z.$$ This is because all subgroups of $\Z$ are isomorphic to $0$ or $\Z$. In both cases, the marked isomorphisms will give all other homology groups.
+
+The long exact sequence in homotopy for the fibration $F\rightarrow S^k\xrightarrow{s_n} S^k$, together with the observation $\pi_{k-1}S^k=0$, gives a short exact sequence
+$$0\rightarrow \Z \xrightarrow[]{\cdot n}\Z\rightarrow \pi_{k-1}F\rightarrow 0$$
+giving $\pi_{k-1}F=\Z/n\Z$. The long exact sequence also gives $\pi_jF=0$ for $j<k-1$, since $\pi_j S^k=0$ for these values. The Hurewicz theorem therefore gives an isomorphism $H_{k-1}F\iso \pi_{k-1}F\iso \Z/n\Z$.
+
+Returning to the spectral sequence, we find that the only interesting differential is the surjection $d_k:\Z\rightarrow \Z/n\Z$. The kernel $\text{ker}(d_k)=n\Z\iso \Z$ is the final quotient of a filtration
+$$0\subset H_kF\subset F^{1}_k \dots \subset F^{k-1}_k\subset H_kS^k=\Z$$
+The only subquotient of $\Z$ which is isomorphic to $\Z$ is the trivial one, giving $0=F^{k-1}_n=\dots=H_kF$. 
+
+In summary,
+$$H_jF=\begin{cases} 
+      \Z  & j=0\\
+      \Z/n\Z & j= ik-i, i>0 \\
+      0 & \text{otherwise}
+   \end{cases}
+$$
+
+\end{example}
+
