@@ -1,0 +1,232 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{basemath}[Basic macros for mathematical documents]
+
+\RequirePackage{etoolbox}
+
+%---------%
+% Toggles %
+%---------%
+\newtoggle{schola}
+\newtoggle{fourier}
+\newtoggle{times}
+\newtoggle{mlmodern}
+
+\newtoggle{title}
+
+\newtoggle{varepsilon}
+\newtoggle{varphi}
+
+\DeclareOption{schola}{\toggletrue{schola}}
+\DeclareOption{fourier}{\toggletrue{fourier}}
+\DeclareOption{times}{\toggletrue{times}}
+\DeclareOption{mlmodern}{\toggletrue{mlmodern}}
+
+\DeclareOption{title}{\toggletrue{title}}
+
+\DeclareOption{varepsilon}{\toggletrue{varepsilon}}
+\DeclareOption{varphi}{\toggletrue{varphi}}
+
+\DeclareOption*{\PackageWarning{examplepackage}{Unknown ‘\CurrentOption’}}
+\ProcessOptions\relax
+
+%---------------%
+% Font packages %
+%---------------%
+\RequirePackage[T1]{fontenc}
+
+\iftoggle{schola}{
+    \RequirePackage[scale=0.92]{tgschola}
+    \RequirePackage{fouriernc}
+}{}
+
+\iftoggle{fourier}{
+    \RequirePackage{fourier}
+}{}
+
+\iftoggle{times}{
+    \RequirePackage{mathptmx}
+}{}
+
+\iftoggle{mlmodern}{
+    \RequirePackage{mlmodern}
+}{}
+
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{mathrsfs}
+\RequirePackage{mathtools}
+\RequirePackage{extarrows}
+\RequirePackage{bm}
+
+%---------------%
+% Title display %
+%---------------%
+\iftoggle{title}{
+    \csdef{subtitle}#1{\csgdef{@subtitle}{#1}}
+    \renewcommand{\maketitle}{
+        \noindent
+        {\large \@author \hfill \@date}
+        
+        \begin{center}
+            {\huge \@title}
+    
+            \ifdef{\@subtitle}{\Large \@subtitle}{}
+        \end{center}
+    }
+}{}
+
+%----------------------%
+% Custom math notation %
+%----------------------%
+\iftoggle{varepsilon}{
+    \let\temp\epsilon
+    \let\epsilon\varepsilon
+    \let\varepsilon\temp
+}{}
+
+\iftoggle{varphi}{
+    \let\temp\phi
+    \let\phi\varphi
+    \let\varphi\temp
+}
+
+%\iftoggle{mlmodern}{
+%    \newcommand{\R}{\mathbf{R}}
+%    \newcommand{\Q}{\mathbf{Q}}
+%    \newcommand{\Z}{\mathbf{Z}}
+%%    \newcommand{\N}{\mathbf{N}}
+ %   \newcommand{\C}{\mathbf{C}}
+ %   \newcommand{\F}{\mathbf{F}}
+ %   \newcommand{\I}{\mathbf{I}}
+ %   \newcommand{\RP}{\mathbf{RP}}
+%}
+
+    \newcommand{\R}{\mathbb{R}}
+    \newcommand{\Q}{\mathbb{Q}}
+    \newcommand{\Z}{\mathbb{Z}}
+    \newcommand{\N}{\mathbb{N}}
+    \newcommand{\C}{\mathbb{C}}
+    \newcommand{\F}{\mathbb{F}}
+    \newcommand{\I}{\mathbb{I}}
+    \newcommand{\RP}{\mathbb{RP}}
+
+
+\newcommand{\comp}[1]{{#1}^{\mathsf{c}}}
+
+\DeclareMathOperator{\lcm}{lcm}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\ang}{\langle}{\rangle}
+\DeclareMathOperator{\ch}{char}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\rank}{rank}
+
+\newcommand{\mapsfrom}{\mathrel{\mathpalette\tempmapsfrom\relax}}
+\newcommand{\tempmapsfrom}{\reflectbox{$\mapsto$}}
+% see https://tex.stackexchange.com/questions/22961/reversed-letters-in-a-mathematical-formula
+
+% Algebra
+\newcommand{\can}{\mathrm{can}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\SF}{\mathrm{SF}}
+\newcommand{\Stab}{\mathrm{Stab}}
+\newcommand{\Fix}{\mathrm{Fix}}
+\newcommand{\Gal}{\mathrm{Gal}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\Cl}{\mathrm{Cl}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\SL}{\mathrm{SL}}
+\newcommand{\smod}{\ \mathrm{mod}\ }
+\newcommand{\Homeo}{\mathrm{Homeo}}
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\End}{\mathrm{End}}
+\newcommand{\Sym}{\mathrm{Sym}}
+\newcommand{\Tor}{\mathrm{Tor}}
+\newcommand{\Ext}{\mathrm{Ext}}
+
+\newcommand{\cat}[1]{\mathcal{#1}}
+
+% Analysis
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\newcommand{\enorm}{\norm{\,\cdot\,}}
+\newcommand{\eps}{\epsilon}
+\renewcommand{\L}{\mathcal{L}}
+
+\newcommand{\spa}[1]{\quad \text{#1} \quad}
+
+\iftoggle{schola}{
+    \renewcommand{\subsetneq}{\varsubsetneq}
+}{}
+
+% Double angle brackets workaround 
+% See https://tex.stackexchange.com/questions/79657/how-to-get-double-angle-bracket-without-using-mnsymbol-package
+\newsavebox{\@brx}
+\newcommand{\llangle}[1][]{\savebox{\@brx}{\(\m@th{#1\langle}\)}%
+  \mathopen{\copy\@brx\mkern2mu\kern-0.9\wd\@brx\usebox{\@brx}}}
+\newcommand{\rrangle}[1][]{\savebox{\@brx}{\(\m@th{#1\rangle}\)}%
+  \mathclose{\copy\@brx\mkern2mu\kern-0.9\wd\@brx\usebox{\@brx}}}
+
+\newcommand{\aang}[2][]{\llangle[#1] #2 \rrangle[#1]}
+
+% Categories
+\newcommand{\Top}{\mathbf{Top}}
+\newcommand{\Vect}{\mathbf{Vec}}
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\Met}{\mathbf{Met}}
+\newcommand{\Set}{\mathbf{Set}}
+\newcommand{\Mod}{\mathbf{Mod}}
+\newcommand{\sSet}{\mathbf{sSet}}
+\newcommand{\sAb}{\mathbf{sAb}}
+\newcommand{\Ch}{\mathbf{Ch}}
+
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\ob}{ob}
+
+\newcommand{\opp}{\mathrm{op}}
+
+\DeclareMathOperator*{\colim}{colim}
+
+%------------------%
+% Enumitem options %
+%------------------%
+\RequirePackage[shortlabels]{enumitem}
+% \setlist{left=0pt, listparindent=\parindent}
+
+%----------%
+% Graphics %
+%----------%
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+\RequirePackage{tikz-cd}
+
+% \tikzcdset{row sep/normal=3em}
+% \tikzcdset{column sep/normal=3em}
+
+%----------------%
+% Theorem styles %
+%----------------%
+\RequirePackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem{definition}[theorem]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+
+
+%-----------------------%
+% Miscelaneous packages %
+%-----------------------%
+\setlength{\marginparwidth}{2cm}
+\RequirePackage{todonotes}
+\RequirePackage[pdfencoding=auto, psdextra]{hyperref}
