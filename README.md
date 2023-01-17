@@ -1,2 +1,2 @@
-# Regular Primes
-Notes on a dissertation on Kummer's Theory of Regular Primes.
+# Spectral sequences
+Informal notes on spectral sequences, focusing on the Serre and Adams spectral sequences.
